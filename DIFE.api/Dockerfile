@@ -7,16 +7,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["ElExtracto.API/ElExtracto.API.csproj", "ElExtracto.API/"]
-RUN dotnet restore "ElExtracto.API/ElExtracto.API.csproj"
+COPY ["DIP.API/DIP.API.csproj", "DIP.API/"]
+RUN dotnet restore "DIP.API/DIP.API.csproj"
 COPY . .
-WORKDIR "/src/ElExtracto.API"
-RUN dotnet build "ElExtracto.API.csproj" -c Release -o /app/build
+WORKDIR "/src/DIP.API"
+RUN dotnet build "DIP.API.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "ElExtracto.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "DIP.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "ElExtracto.API.dll"]
+ENTRYPOINT ["dotnet", "DIP.API.dll"]

@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.33808.371
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DIFE.api", "DIFE.api\DIFE.api.csproj", "{2926578B-883A-40C9-8C03-18388EA7CD20}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DIFE.lib", "DIFE.lib\DIFE.lib.csproj", "{2765405D-ABDD-44DD-88F9-1DC76710E424}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DIFE.tests", "DIFE.tests\DIFE.tests.csproj", "{8BC557A7-8845-49F6-BB63-1F466278E9B3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2926578B-883A-40C9-8C03-18388EA7CD20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2926578B-883A-40C9-8C03-18388EA7CD20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2926578B-883A-40C9-8C03-18388EA7CD20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2926578B-883A-40C9-8C03-18388EA7CD20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2765405D-ABDD-44DD-88F9-1DC76710E424}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2765405D-ABDD-44DD-88F9-1DC76710E424}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2765405D-ABDD-44DD-88F9-1DC76710E424}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2765405D-ABDD-44DD-88F9-1DC76710E424}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BC557A7-8845-49F6-BB63-1F466278E9B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BC557A7-8845-49F6-BB63-1F466278E9B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BC557A7-8845-49F6-BB63-1F466278E9B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BC557A7-8845-49F6-BB63-1F466278E9B3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {00E59402-4CBA-47E4-8C41-1FA19BB10B39}
+	EndGlobalSection
+EndGlobal
