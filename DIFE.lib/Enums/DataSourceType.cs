@@ -2,7 +2,9 @@
 {
     public enum DataSourceType
     {
-        Input = 1,
-        Output = 2,
+        MongoDb = 1,
+        LiteDb = 2,
+        Qdrant = 3,
+        FlatfileJson = 4
     }
 }

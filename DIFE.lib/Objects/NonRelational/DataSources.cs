@@ -13,6 +13,8 @@ namespace DIP.lib.Objects.NonRelational
 
         public required DataSourceType SourceType { get; set; }
 
+        public required DataSourceDirection SourceDirection { get; set; }
+
         public DataSources()
         {
         }
