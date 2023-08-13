@@ -1,15 +1,15 @@
 using DIP.API.Controllers.Base;
-using DIP.lib.Services;
 using DIP.lib.Objects.NonRelational;
 
 using Microsoft.AspNetCore.Mvc;
 using DIP.lib.Managers;
+using DIFE.lib.Services.Base;
 
 namespace DIP.API.Controllers
 {
     public class DataSourceController : BaseController<DataSourceManager>
     {
-        public DataSourceController(ILogger<DataSourceController> logger, MongoDbService mongo) : base(logger, mongo)
+        public DataSourceController(ILogger<DataSourceController> logger, BaseSourceService sService) : base(logger, sService)
         {
         }
 

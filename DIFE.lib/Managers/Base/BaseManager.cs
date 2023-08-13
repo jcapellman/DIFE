@@ -1,14 +1,14 @@
-﻿using DIP.lib.Services;
+﻿using DIFE.lib.Services.Base;
 
 namespace DIP.lib.Managers.Base
 {
     public class BaseManager
     {
-        protected readonly MongoDbService Mongo;
+        protected readonly BaseSourceService SourceService;
 
-        protected BaseManager(MongoDbService mongo)
+        protected BaseManager(BaseSourceService sService)
         {
-            Mongo = mongo;
+            SourceService = sService;
         }
     }
 }

@@ -3,14 +3,18 @@ using DIP.lib.Objects.NonRelational.Base;
 using DIP.lib.Objects.NonRelational;
 using MongoDB.Driver;
 using System.Linq.Expressions;
+using DIFE.lib.Services.Base;
+using DIFE.lib.Enums;
 
 namespace DIP.lib.Services
 {
-    public class MongoDbService
+    public class MongoDbService : BaseSourceService
     {
         private readonly IMongoDatabase _mongoDbClient;
 
-        public MongoDbService(MongoDbConfig configuration)
+        public override InternalDataSourceType SourceType => InternalDataSourceType.MongoDb;
+
+        public MongoDbService(InternalDataSourceConfig configuration)
         {
             _mongoDbClient = new MongoClient(configuration.ConnectionString).GetDatabase(configuration.DatabaseName);
         }
@@ -27,28 +31,21 @@ namespace DIP.lib.Services
             return _mongoDbClient.GetCollection<T>(collection);
         }
 
-        public async Task<bool> UpdateAsync<T>(T obj) where T : BaseNonRelational
-        {
-            var result = await Collections<T>().ReplaceOneAsync<T>(a => a.Id == obj.Id, obj);
-
-            return result.ModifiedCount > 0;
-        }
-
-        public async Task<bool> DeleteAsync<T>(Guid id) where T : BaseNonRelational
+        public override async Task<bool> DeleteAsync<T>(Guid id)
         {
             var result = await Collections<T>().DeleteOneAsync<T>(a => a.Id == id);
 
             return result.DeletedCount > 0;
         }
 
-        public async Task<Guid> InsertAsync<T>(T obj) where T : BaseNonRelational
+        public override async Task<Guid> InsertAsync<T>(T obj)
         {
             await Collections<T>().InsertOneAsync(obj);
 
             return obj.Id;
         }
 
-        public async Task<List<T>> GetManyAsync<T>(Expression<Func<T, bool>> expression) where T : BaseNonRelational =>
+        public override async Task<List<T>> GetManyAsync<T>(Expression<Func<T, bool>> expression) =>
             await (await Collections<T>().FindAsync(expression)).ToListAsync();
 
         public async Task<Guid> InsertDataSource(DataSources dataSource)
@@ -58,9 +55,16 @@ namespace DIP.lib.Services
             return dataSource.Id;
         }
 
-        public async Task<T> GetOneAsync<T>(Expression<Func<T, bool>> expression)
+        public override async Task<T> GetOneAsync<T>(Expression<Func<T, bool>> expression)
         {
             return await (await Collections<T>().FindAsync(expression)).FirstOrDefaultAsync();
+        }
+
+        public override async Task<bool> UpdateAsync<T>(T obj)
+        {
+            var result = await Collections<T>().ReplaceOneAsync<T>(a => a.Id == obj.Id, obj);
+
+            return result.ModifiedCount > 0;
         }
     }
 }

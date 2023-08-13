@@ -1,12 +1,16 @@
-﻿namespace DIP.lib.Objects.Config
+﻿using DIFE.lib.Enums;
+
+namespace DIP.lib.Objects.Config
 {
-    public class MongoDbConfig
+    public class InternalDataSourceConfig
     {
         public string ConnectionString { get; set; }
 
         public string DatabaseName { get; set; }
 
-        public MongoDbConfig()
+        public InternalDataSourceType IDSType {  get; set; }
+
+        public InternalDataSourceConfig()
         {
             ConnectionString = string.Empty;
 

@@ -1,6 +1,6 @@
-﻿using DIP.lib.Services;
-using DIP.lib.Managers.Base;
+﻿using DIP.lib.Managers.Base;
 using Microsoft.AspNetCore.Mvc;
+using DIFE.lib.Services.Base;
 
 namespace DIP.API.Controllers.Base
 {
@@ -12,11 +12,11 @@ namespace DIP.API.Controllers.Base
 
         protected readonly T _manager;
 
-        protected BaseController(ILogger<BaseController<T>> logger, MongoDbService mongo)
+        protected BaseController(ILogger<BaseController<T>> logger, BaseSourceService sService)
         {
             Logger = logger;
 
-            _manager = Activator.CreateInstance(typeof(T), mongo) as T ?? throw new NullReferenceException(nameof(_manager));
+            _manager = Activator.CreateInstance(typeof(T), sService) as T ?? throw new NullReferenceException(nameof(_manager));
         }
     }
 }

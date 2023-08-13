@@ -2,6 +2,6 @@
 {
     public static class AppConstants
     {
-        public const string DbConnectionMongo = "MongoDBConnection";
+        public const string InternalDataSourceConfig = "InternalDataSourceConfig";
     }
 }

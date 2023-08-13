@@ -1,27 +1,27 @@
-
+using DIFE.lib.Services.Base;
 using DIP.lib.Common;
 using DIP.lib.Objects.Config;
-using DIP.lib.Services;
 
 namespace DIP.API
 {
     public class Program
     {
+        private static BaseSourceService? InitIDS(InternalDataSourceConfig config) =>
+            typeof(BaseSourceService).Assembly.GetTypes()
+                .Where(a => a.BaseType == typeof(BaseSourceService))
+                .Select(b => Activator.CreateInstance(b, args: new[] { config }) as BaseSourceService)
+                .FirstOrDefault(c => c?.SourceType == config.IDSType);
+
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            var mongoConfig = builder.Configuration.GetSection(AppConstants.DbConnectionMongo).Get<MongoDbConfig>();
+            var idsConfig = builder.Configuration.GetSection(AppConstants.InternalDataSourceConfig).Get<InternalDataSourceConfig>()
+                ?? throw new Exception("idsConfig was not set - shutting down");
 
-            if (mongoConfig is null)
-            {
-                throw new Exception("Mongo Config was not set - shutting down");
-            }
+            var baseService = InitIDS(idsConfig) ?? throw new Exception("baseService is null");
 
-            builder.Services.AddSingleton(mongoConfig);
-
-            builder.Services.AddSingleton<MongoDbService>();
-
+            builder.Services.AddSingleton(baseService);
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
@@ -29,7 +29,6 @@ namespace DIP.API
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
