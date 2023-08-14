@@ -2,6 +2,7 @@
 using DIFE.lib.Services.Base;
 using DIP.lib.Objects.Config;
 using LiteDB;
+using LiteDB.Async;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -23,47 +24,51 @@ namespace DIFE.lib.Services
             _config = configuration;
         }
 
-        public override Task<bool> DeleteAsync<T>(Guid id)
+        public override async Task<bool> DeleteAsync<T>(Guid id)
         {
-            throw new NotImplementedException();
+            using var db = new LiteDatabaseAsync(_config.ConnectionString);
+
+            var col = db.GetCollection<T>();
+
+            return await col.DeleteAsync(id);
         }
 
         public override async Task<List<T>> GetManyAsync<T>(Expression<Func<T, bool>> expression)
         {
-            using var db = new LiteDatabase(_config.ConnectionString);
+            using var db = new LiteDatabaseAsync(_config.ConnectionString);
 
             var col = db.GetCollection<T>();
 
-            return col.Find(expression).ToList();
+            return (await col.FindAsync(expression)).ToList();
         }
 
         public override async Task<T> GetOneAsync<T>(Expression<Func<T, bool>> expression)
         {
-            using var db = new LiteDatabase(_config.ConnectionString);
+            using var db = new LiteDatabaseAsync(_config.ConnectionString);
 
             var col = db.GetCollection<T>();
 
-            return col.FindOne(expression);
+            return await col.FindOneAsync(expression);
         }
 
         public override async Task<Guid> InsertAsync<T>(T obj)
         {
-            using var db = new LiteDatabase(_config.ConnectionString);
+            using var db = new LiteDatabaseAsync(_config.ConnectionString);
 
             var col = db.GetCollection<T>();
 
-            var val = col.Insert(obj);
+            var val = await col.InsertAsync(obj);
 
             return val.AsGuid;
         }
 
         public override async Task<bool> UpdateAsync<T>(T obj)
         {
-            using var db = new LiteDatabase(_config.ConnectionString);
+            using var db = new LiteDatabaseAsync(_config.ConnectionString);
 
             var col = db.GetCollection<T>();
 
-            return col.Update(obj);
+            return await col.UpdateAsync(obj);
         }
     }
 }
