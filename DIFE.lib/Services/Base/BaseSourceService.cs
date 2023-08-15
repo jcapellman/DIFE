@@ -1,4 +1,5 @@
 ﻿using DIFE.lib.Enums;
+using DIP.lib.Objects.Config;
 using DIP.lib.Objects.NonRelational.Base;
 
 using System.Linq.Expressions;
@@ -8,6 +9,13 @@ namespace DIFE.lib.Services.Base
     public abstract class BaseSourceService
     {
         public abstract InternalDataSourceType SourceType { get; }
+
+        protected readonly InternalDataSourceConfig Configuration;
+
+        protected BaseSourceService(InternalDataSourceConfig configuration)
+        {
+            Configuration = configuration;
+        }
 
         public abstract Task<bool> UpdateAsync<T>(T obj) where T : BaseNonRelational;
 

@@ -1,5 +1,4 @@
 ﻿using DIP.lib.Objects.Config;
-using DIP.lib.Objects.NonRelational.Base;
 using DIP.lib.Objects.NonRelational;
 using MongoDB.Driver;
 using System.Linq.Expressions;
@@ -10,18 +9,23 @@ namespace DIP.lib.Services
 {
     public class MongoDbService : BaseSourceService
     {
-        private readonly IMongoDatabase _mongoDbClient;
+        private IMongoDatabase _mongoDbClient;
 
         public override InternalDataSourceType SourceType => InternalDataSourceType.MongoDb;
 
-        public MongoDbService(InternalDataSourceConfig configuration)
+        public MongoDbService(InternalDataSourceConfig configuration) : base(configuration)
         {
-            _mongoDbClient = new MongoClient(configuration.ConnectionString).GetDatabase(configuration.DatabaseName);
+            _mongoDbClient = new MongoClient(Configuration.ConnectionString).GetDatabase(Configuration.DatabaseName);
         }
 
         private IMongoCollection<T> Collections<T>()
         {
             var collection = typeof(T).Name;
+
+            if (_mongoDbClient.Client.Cluster.Description.State != MongoDB.Driver.Core.Clusters.ClusterState.Connected)
+            {
+                _mongoDbClient = new MongoClient(Configuration.ConnectionString).GetDatabase(Configuration.DatabaseName);
+            }
 
             if (_mongoDbClient.ListCollectionNames().ToEnumerable().All(c => c != collection))
             {
