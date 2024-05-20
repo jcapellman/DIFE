@@ -12,7 +12,7 @@
   </PropertyGroup>
 
 <ItemGroup>
-	<PackageReference Include="LangChain.Databases.Qdrant" Version="0.13.0" />
+	<PackageReference Include="LangChain.Databases.Qdrant" Version="0.14.0" />
 	<PackageReference Include="LiteDB" Version="5.0.19" />
 	<PackageReference Include="LiteDB.Async" Version="0.1.7" />
 	<PackageReference Include="MongoDB.Driver" Version="2.25.0" />
